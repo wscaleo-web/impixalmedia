@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hero Section Comparison Lab — Impixal Media</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #09090b;
+  --surface: #121215;
+  --border: rgba(255, 255, 255, 0.12);
+  --border-hi: rgba(255, 255, 255, 0.25);
+  --accent: #3c2cff;
+  --gold: #d4a574;
+  --text: #f4f4f5;
+  --muted: #a1a1aa;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header Control Bar */
+.top-bar {
+  height: 64px;
+  background: rgba(18, 18, 21, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 100;
+  flex-shrink: 0;
+}
+.brand-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+}
+.brand-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(60, 44, 255, 0.15);
+  color: #a5b4fc;
+  border: 1px solid rgba(60, 44, 255, 0.35);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.view-toggles {
+  display: flex;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  gap: 4px;
+}
+.toggle-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.toggle-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+.toggle-btn.active {
+  background: #ffffff;
+  color: #09090b;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.ext-links {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.ext-btn {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.ext-btn:hover {
+  color: #fff;
+  border-color: var(--border-hi);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Comparison Stage */
+.stage-container {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+.pane {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.35s cubic-bezier(0.2, 0.9, 0.25, 1);
+  overflow: hidden;
+}
+.pane-header {
+  height: 40px;
+  background: #0e0e12;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.pane-header strong {
+  color: #fff;
+}
+.pane-header .tag {
+  font-size: 10.5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+.pane-header .tag-onda {
+  background: rgba(176, 107, 255, 0.15);
+  color: #d8b4fe;
+  border-color: rgba(176, 107, 255, 0.3);
+}
+.pane-header .tag-prism {
+  background: rgba(60, 44, 255, 0.15);
+  color: #a5b4fc;
+  border-color: rgba(60, 44, 255, 0.3);
+}
+.divider {
+  width: 2px;
+  background: var(--border);
+  position: relative;
+  z-index: 20;
+}
+iframe {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #09090b;
+}
+
+/* Modes */
+.mode-split #paneOnda { display: flex; flex: 1; }
+.mode-split #panePrism { display: flex; flex: 1; }
+.mode-split .divider { display: block; }
+
+.mode-onda #paneOnda { display: flex; flex: 1; }
+.mode-onda #panePrism { display: none; }
+.mode-onda .divider { display: none; }
+
+.mode-prism #paneOnda { display: none; }
+.mode-prism #panePrism { display: flex; flex: 1; }
+.mode-prism .divider { display: none; }
+</style>
+</head>
+<body class="mode-split">
+
+<!-- Header Controls -->
+<header class="top-bar">
+  <div class="brand-title">
+    <span>IMPIXAL MEDIA</span>
+    <span class="brand-pill">Hero Comparison Lab</span>
+  </div>
+
+  <div class="view-toggles">
+    <button class="toggle-btn active" id="btnSplit" onclick="setMode('split')">
+      <span>◫</span> Side-by-Side (50/50 Split)
+    </button>
+    <button class="toggle-btn" id="btnOnda" onclick="setMode('onda')">
+      <span>✦</span> Option A: Onda / 8B Hero (Current)
+    </button>
+    <button class="toggle-btn" id="btnPrism" onclick="setMode('prism')">
+      <span>▲</span> Option B: Glass Prism WebGL
+    </button>
+  </div>
+
+  <div class="ext-links">
+    <a href="index.html" target="_blank" class="ext-btn">Open Option A in Tab ↗</a>
+    <a href="hero-option-6-glass-prism.html" target="_blank" class="ext-btn">Open Option B in Tab ↗</a>
+  </div>
+</header>
+
+<!-- Main Comparison Viewport -->
+<main class="stage-container" id="stageContainer">
+  <!-- Left Pane: Current Onda Hero -->
+  <section class="pane" id="paneOnda">
+    <div class="pane-header">
+      <div>
+        <strong>Option A: Onda / 8B Kinetic Aperture</strong>
+        <span style="margin-left:8px;font-weight:400;color:var(--muted)">Current Production Homepage</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="tag tag-onda">GSAP Morph + 3D Aperture Orb</span>
+        <a href="index.html" target="_blank" style="color:var(--muted);text-decoration:none;font-size:11px">Full Screen ↗</a>
+      </div>
+    </div>
+    <iframe src="index.html" title="Current Impixal Hero (Onda Style)"></iframe>
+  </section>
+
+  <!-- Split Divider Bar -->
+  <div class="divider" id="divider"></div>
+
+  <!-- Right Pane: New Glass Prism Hero -->
+  <section class="pane" id="panePrism">
+    <div class="pane-header">
+      <div>
+        <strong>Option B: Glass Prism WebGL Hero</strong>
+        <span style="margin-left:8px;font-weight:400;color:var(--muted)">Snell's Law Dispersion across Dot Grid</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="tag tag-prism">Plain WebGL + Interactive Ray</span>
+        <a href="hero-option-6-glass-prism.html" target="_blank" style="color:var(--muted);text-decoration:none;font-size:11px">Full Screen ↗</a>
+      </div>
+    </div>
+    <iframe src="hero-option-6-glass-prism.html" title="Glass Prism WebGL Hero"></iframe>
+  </section>
+</main>
+
+<script>
+function setMode(mode) {
+  const body = document.body;
+  body.className = 'mode-' + mode;
+  
+  document.getElementById('btnSplit').classList.toggle('active', mode === 'split');
+  document.getElementById('btnOnda').classList.toggle('active', mode === 'onda');
+  document.getElementById('btnPrism').classList.toggle('active', mode === 'prism');
+}
+</script>
+</body>
+</html>
+

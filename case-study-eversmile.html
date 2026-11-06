@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EverSmile Dental — Brand Identity & Spatial Experience Case Study | Impixal Media</title>
+<meta name="description" content="How Impixal Media engineered an institutional-grade luxury brand identity and architectural signage system for EverSmile Dental Orthodontic & Implant Clinic." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Gabarito:wght@700;800;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
+<style>
+:root {
+  --bg: #040916;
+  --bg-2: #071226;
+  --surface: #0b1933;
+  --surface-2: #102347;
+  --surface-card: #0d1e3d;
+  --border: rgba(212,165,116,0.18);
+  --border-hi: rgba(212,165,116,0.45);
+  --border-subtle: rgba(255,255,255,0.08);
+  --text: #f0f4fc;
+  --muted: #a0aac8;
+  --dim: #6d7899;
+  --gold: #d4a574;
+  --gold-light: #fff0d4;
+  --gold-deep: #a8733b;
+  --c-navy: #07142d;
+  --c-steel: #7a7f8a;
+  --c1: #d4a574;
+  --c2: #6ea8ff;
+  --c3: #e2ba8c;
+  --white: #ffffff;
+  --max: 1280px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: auto; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  cursor: none;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+.container { max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+
+/* Custom Luxury Gold Cursor */
+.cursor {
+  position: fixed; top: 0; left: 0; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--gold-light); pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%); transition: width .25s, height .25s, opacity .3s;
+  box-shadow: 0 0 12px var(--gold); opacity: 0;
+}
+.cursor-ring {
+  position: fixed; top: 0; left: 0; width: 44px; height: 44px; border-radius: 50%;
+  border: 1.5px solid rgba(212,165,116,0.6); pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%); transition: width .3s, height .3s, opacity .3s;
+  opacity: 0;
+}
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--gold), #ffffff, var(--c2), var(--gold));
+  z-index: 100; box-shadow: 0 0 16px var(--gold);
+}
+
+/* Navigation */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: all .35s; }
+.nav.scrolled {
+  background: rgba(4,9,22,0.88);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+.nav-left { display: flex; align-items: center; gap: 24px; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700;
+  color: var(--gold); padding: 8px 16px; border-radius: 999px;
+  background: rgba(212,165,116,0.1); border: 1px solid rgba(212,165,116,0.25);
+  transition: all .25s;
+}
+.back-link:hover { background: rgba(212,165,116,0.2); transform: translateX(-3px); }
+.logo {
+  display: flex; align-items: center; gap: 12px; font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800; font-size: 18px; letter-spacing: -0.02em;
+}
+.logo-mark {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(135deg, #07142d, #142c54);
+  border: 1px solid var(--border); display: grid; place-items: center;
+}
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a { font-size: 13.5px; font-weight: 500; color: var(--muted); transition: color .2s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  padding: 10px 22px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+  color: #07142d; font-weight: 800; font-size: 13.5px; letter-spacing: 0.02em;
+  box-shadow: 0 4px 18px rgba(212,165,116,0.3); transition: all .25s;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,165,116,0.5); }
+.menu-toggle { display: none; background: none; border: 0; color: var(--text); font-size: 24px; cursor: pointer; }
+
+/* Hero Section */
+.hero {
+  position: relative; min-height: 480px; max-height: 760px; display: flex; align-items: flex-end;
+  padding: 130px 0 50px; overflow: hidden;
+}
+.hero-bg { position: absolute; inset: -20%; z-index: 0; pointer-events: none; }
+.blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.45; animation: float 14s ease-in-out infinite; }
+.blob-1 { width: 620px; height: 620px; background: radial-gradient(circle, rgba(212,165,116,0.5) 0%, transparent 70%); top: -10%; left: -6%; }
+.blob-2 { width: 560px; height: 560px; background: radial-gradient(circle, rgba(110,168,255,0.4) 0%, transparent 70%); top: 10%; right: -10%; animation-delay: -5s; }
+.blob-3 { width: 480px; height: 480px; background: radial-gradient(circle, rgba(168,115,59,0.3) 0%, transparent 70%); bottom: -12%; left: 30%; animation-delay: -9s; }
+@keyframes float {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(45px,-35px) scale(1.08); }
+  66% { transform: translate(-35px,45px) scale(0.94); }
+}
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0; opacity: 0.28;
+  background-image: linear-gradient(rgba(212,165,116,0.12) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(212,165,116,0.12) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, black, transparent);
+}
+.hero-content { position: relative; z-index: 1; max-width: 1050px; }
+.case-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+.meta-tag {
+  padding: 6px 14px; border-radius: 999px; background: rgba(212,165,116,0.1);
+  border: 1px solid rgba(212,165,116,0.28); color: var(--gold);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.hero h1 {
+  font-family: 'Space Grotesk', 'Gabarito', sans-serif; font-weight: 800;
+  font-size: clamp(44px, 7.5vw, 92px); line-height: 0.96; letter-spacing: -0.04em; margin-bottom: 22px;
+}
+.hero h1 .grad {
+  background: linear-gradient(120deg, #ffffff 0%, var(--gold-light) 30%, var(--gold) 75%, var(--gold-deep) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero-sub {
+  font-size: clamp(17px, 1.6vw, 21px); color: var(--muted); max-width: 760px; line-height: 1.55;
+}
+
+/* Sections */
+.section { padding: 90px 0; position: relative; }
+.section-eyebrow {
+  color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+}
+.section-eyebrow::before {
+  content: ""; width: 28px; height: 1.5px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.section-title {
+  font-family: 'Space Grotesk', sans-serif; font-size: clamp(30px, 4.2vw, 54px);
+  font-weight: 800; letter-spacing: -0.03em; line-height: 1.08; max-width: 860px;
+}
+.section-title .serif {
+  font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;
+  background: linear-gradient(120deg, var(--gold-light), var(--gold));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.section-lead { color: var(--muted); font-size: 18px; max-width: 720px; margin-top: 18px; line-height: 1.6; }
+
+/* Showcase Visual Frame */
+.showcase-frame {
+  margin: 36px 0 50px; border-radius: 26px; overflow: hidden;
+  border: 1px solid var(--border); background: var(--surface);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.65), 0 0 40px rgba(212,165,116,0.12);
+  position: relative; transition: border-color .3s;
+}
+.showcase-frame:hover { border-color: var(--border-hi); }
+.showcase-frame img, .showcase-frame svg {
+  width: 100%; height: auto; display: block; border-radius: 25px;
+}
+.showcase-caption {
+  padding: 18px 28px; background: rgba(5,13,30,0.85); backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between;
+  align-items: center; font-size: 12.5px; color: var(--muted); flex-wrap: wrap; gap: 12px;
+}
+.showcase-caption strong { color: var(--gold); }
+
+/* Quick Jump Pill Navigation */
+.quick-jumps {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px;
+}
+.jump-pill {
+  font-size: 12px; font-weight: 600; padding: 7px 16px; border-radius: 999px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle);
+  color: var(--muted); transition: all .2s;
+}
+.jump-pill:hover {
+  background: rgba(212,165,116,0.12); border-color: var(--border); color: var(--gold);
+  transform: translateY(-2px);
+}
+
+/* Content Grid & Callouts */
+.content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 40px; }
+.content-grid p { color: var(--muted); font-size: 16.5px; line-height: 1.65; margin-bottom: 18px; }
+.callout {
+  background: var(--surface-card); border: 1px solid var(--border);
+  border-radius: 22px; padding: 36px; position: relative; overflow: hidden;
+}
+.callout::before {
+  content: ""; position: absolute; top: -40%; right: -40%; width: 80%; height: 80%;
+  background: radial-gradient(circle, rgba(212,165,116,0.15), transparent 70%);
+  pointer-events: none;
+}
+.callout h3 { font-family: 'Space Grotesk', sans-serif; font-size: 21px; font-weight: 700; margin-bottom: 12px; position: relative; z-index: 1; }
+.callout p { color: var(--muted); font-size: 14.5px; line-height: 1.6; position: relative; z-index: 1; }
+
+/* Bento Logomark Cards */
+.logomark-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 36px; }
+.logomark-item {
+  background: var(--surface-card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 30px; transition: all .3s; position: relative; overflow: hidden;
+}
+.logomark-item:hover { border-color: var(--border-hi); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
+.logomark-item .icon-badge {
+  width: 44px; height: 44px; border-radius: 12px; background: rgba(212,165,116,0.12);
+  border: 1px solid var(--border); display: grid; place-items: center; color: var(--gold);
+  margin-bottom: 18px; font-weight: 800; font-size: 14px;
+}
+.logomark-item h4 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+.logomark-item p { color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+
+/* Bento Metrics Row */
+.metrics-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 40px;
+}
+.metric-card {
+  background: var(--surface-card); border: 1px solid var(--border); border-radius: 20px;
+  padding: 28px; text-align: center; transition: all .3s;
+}
+.metric-card:hover { border-color: var(--border-hi); transform: translateY(-4px); }
+.metric-val {
+  font-family: 'Space Grotesk', sans-serif; font-size: clamp(36px, 4vw, 48px);
+  font-weight: 800; line-height: 1; margin-bottom: 8px;
+  background: linear-gradient(120deg, #ffffff, var(--gold));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.metric-label { font-size: 12.5px; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.metric-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+/* Quote Section */
+.quote {
+  background: linear-gradient(135deg, rgba(212,165,116,0.1), rgba(14,31,61,0.6));
+  border: 1px solid var(--border-hi); border-radius: 26px; padding: 50px;
+  margin: 40px 0; position: relative; box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+}
+.quote::before {
+  content: "\201C"; position: absolute; top: 16px; left: 32px;
+  font-family: 'Instrument Serif', serif; font-style: italic; font-size: 100px;
+  color: var(--gold); opacity: 0.3; line-height: 1; pointer-events: none;
+}
+.quote p { font-size: 20px; line-height: 1.6; color: var(--text); position: relative; z-index: 1; font-style: italic; max-width: 900px; }
+.quote .attr { margin-top: 24px; font-size: 14px; color: var(--gold); font-weight: 700; font-style: normal; display: flex; align-items: center; gap: 12px; }
+.quote .attr span { color: var(--dim); font-weight: 400; }
+
+/* CTA Band */
+.cta-band { padding: 110px 0; position: relative; overflow: hidden; }
+.cta-band-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(212,165,116,0.2) 0%, rgba(4,9,22,0.95) 75%);
+}
+.cta-band-inner { position: relative; text-align: center; max-width: 800px; margin: 0 auto; }
+.cta-band h2 {
+  font-family: 'Space Grotesk', sans-serif; font-size: clamp(34px, 5vw, 60px);
+  font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 20px;
+}
+.cta-band p { color: var(--muted); font-size: 18px; margin-bottom: 38px; line-height: 1.6; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; padding: 16px 36px;
+  border-radius: 999px; font-weight: 800; font-size: 15px; cursor: pointer;
+  border: 1px solid transparent; transition: all .3s; position: relative; overflow: hidden;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+  color: #07142d; box-shadow: 0 8px 28px rgba(212,165,116,0.4);
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(212,165,116,0.6); }
+.btn-ghost {
+  background: rgba(255,255,255,0.05); color: var(--white);
+  border-color: var(--border); backdrop-filter: blur(8px);
+}
+.btn-ghost:hover { background: rgba(212,165,116,0.15); border-color: var(--gold); }
+
+/* Footer */
+footer { padding: 60px 0 30px; border-top: 1px solid var(--border-subtle); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 24px; font-size: 13px; color: var(--dim); flex-wrap: wrap; gap: 12px;
+}
+.footer-bottom a { color: var(--gold); }
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+  .content-grid { grid-template-columns: 1fr; }
+  .logomark-grid { grid-template-columns: 1fr; }
+  .metrics-grid { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
+  .menu-toggle { display: block; }
+}
+@media (max-width: 640px) {
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none !important; }
+  .metrics-grid { grid-template-columns: 1fr; }
+  .section { padding: 70px 0; }
+}
+</style>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Top Sticky Nav -->
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <div class="nav-left">
+      <a href="index.html" class="back-link">&larr; Impixal Portfolio</a>
+      <a href="index.html" class="logo">
+        <span class="logo-mark">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <rect x="9" y="3.5" width="6" height="5" rx="1.8" fill="#d4a574"/>
+            <rect x="9" y="10.5" width="6" height="10" rx="1.8" fill="#ffffff"/>
+          </svg>
+        </span>
+        <span>IMPIXAL MEDIA</span>
+      </a>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#overview">Overview</a>
+      <a href="#anatomy">Logomark Anatomy</a>
+      <a href="#palette">Color Architecture</a>
+      <a href="#signage">Spatial Signage</a>
+      <a href="#stationery">Stationery Suite</a>
+      <a href="#metrics">Impact &amp; Results</a>
+      <a href="index.html#contact" class="nav-cta">Start Your Project</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <div class="hero-grid"></div>
+  <div class="container hero-content">
+    <div class="case-meta">
+      <span class="meta-tag">Client Case Study</span>
+      <span class="meta-tag">Healthcare &middot; Aesthetics</span>
+      <span class="meta-tag">Orthodontics &amp; Implants</span>
+      <span class="meta-tag">Comprehensive Brand Identity</span>
+      <span class="meta-tag">Ahmedabad, Gujarat</span>
+    </div>
+    <h1>EverSmile <span class="grad">Dental</span></h1>
+    <p class="hero-sub">Engineering an institutional-grade luxury identity for an advanced orthodontic and implant clinic &mdash; synthesizing clinical authority, human warmth, and architectural permanence.</p>
+    
+    <div class="quick-jumps">
+      <a href="#overview" class="jump-pill">&darr; Master Visual Cover</a>
+      <a href="#anatomy" class="jump-pill">&darr; 4-in-1 Geometric Blueprint</a>
+      <a href="#palette" class="jump-pill">&darr; Chromatic System</a>
+      <a href="#signage" class="jump-pill">&darr; Halo-Lit Fa&ccedil;ade</a>
+      <a href="#stationery" class="jump-pill">&darr; 600gsm Collateral Suite</a>
+      <a href="#metrics" class="jump-pill">&darr; Measured ROI</a>
+    </div>
+  </div>
+</section>
+
+<!-- Section 1: Master Visual Cover Showcase -->
+<section class="section" id="overview" style="padding-top:40px">
+  <div class="container">
+    <div class="showcase-frame">
+      <img src="assets/eversmile/eversmile_cover.svg" alt="EverSmile Dental Master Brand Cover — Impixal Media" width="1600" height="900" loading="eager" />
+      <div class="showcase-caption">
+        <div><strong>Project Master Key:</strong> EverSmile Orthodontic &amp; Implant Care &middot; Complete Visual Identity &amp; Environmental Architecture</div>
+        <div><strong>Studio:</strong> Impixal Media &middot; Ahmedabad</div>
+      </div>
+    </div>
+
+    <!-- The Brief vs The Approach -->
+    <div class="content-grid">
+      <div class="callout">
+        <div class="section-eyebrow">The Brief</div>
+        <h3>&ldquo;Four symbols, zero clutter.&rdquo;</h3>
+        <p>&ldquo;We need a logo that incorporates a tooth, a smile, braces and an implant.&rdquo; That was the prompt EverSmile Dental brought to our design table: concise, demanding, and notoriously difficult to execute without appearing busy or fragmented.</p>
+        <p>In medical brand identity, cramming multiple anatomical or orthodontic references usually ends in graphic chaos. Rather than sidestepping the symbols with a generic swoosh, EverSmile wanted to boldly embrace them as proof of their dual specialty.</p>
+      </div>
+      <div class="callout">
+        <div class="section-eyebrow">The Strategic Approach</div>
+        <h3>Mathematical Synthesis over collage</h3>
+        <p>Instead of stacking four separate shapes, we developed a single cohesive biomorphic vector. The outer contour forms a structured enamel tooth form; the core sweeps into a golden-ratio smile arc; micro orthodontic brackets anchor along the curve; and the lower root shafts carry medical-grade titanium implant pitch threads.</p>
+        <p>Every line serves a clinical purpose. The mark reads instantly as an authoritative crest from 10 feet away on street signage, yet reveals rich orthodontic craft on close inspection.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: Logomark Blueprint & Anatomy -->
+<section class="section" id="anatomy" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="section-eyebrow">01 &middot; Geometric Anatomy Blueprint</div>
+    <h2 class="section-title">Four distinct symbols, <span class="serif">one unified mark</span></h2>
+    <p class="section-lead">A forensic engineering teardown of how tooth, smile curve, orthodontic braces, and implant roots combine into mathematical harmony.</p>
+
+    <!-- Master Schematic Vector Display -->
+    <div class="showcase-frame">
+      <img src="assets/eversmile/eversmile_schematic.svg" alt="EverSmile Dental Logomark Schematic Blueprint — Impixal Media" width="1400" height="850" loading="lazy" />
+      <div class="showcase-caption">
+        <div><strong>Vector Anatomy Blueprint:</strong> Parametric Golden Ratio (\(\Phi = 1.618\)) &middot; CAD Tolerance &lt; 0.05mm</div>
+        <div><strong>Format:</strong> Resolution-Independent Scalable Vector Graphic (SVG)</div>
+      </div>
+    </div>
+
+    <!-- 4 Detailed Modular Cards -->
+    <div class="logomark-grid">
+      <div class="logomark-item">
+        <div class="icon-badge">01</div>
+        <h4>Structured Tooth Silhouette</h4>
+        <p>A biomorphic enamel shape anchored by dual root geometry. Provides immediate medical recognition while maintaining structural weight and trust.</p>
+      </div>
+      <div class="logomark-item">
+        <div class="icon-badge">02</div>
+        <h4>Refined Golden-Ratio Smile Curve</h4>
+        <p>An upward parabolic arc (\(y = ax^2\)) that brings human warmth and approachable luxury to the clinic, eliminating traditional dental appointment anxiety.</p>
+      </div>
+      <div class="logomark-item">
+        <div class="icon-badge">03</div>
+        <h4>Orthodontic Braces Linework</h4>
+        <p>Micro-bracket nodes interconnected along the tension archwire, communicating cosmetic alignment mastery without adding visual noise.</p>
+      </div>
+      <div class="logomark-item">
+        <div class="icon-badge">04</div>
+        <h4>Subtle Titanium Implant Silhouette</h4>
+        <p>Surgical thread pitch geometry etched into the root apex, subtly broadcasting advanced prosthodontics and permanent osseointegration care.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: Chromatic Architecture & Palette -->
+<section class="section" id="palette">
+  <div class="container">
+    <div class="section-eyebrow">02 &middot; Chromatic Architecture</div>
+    <h2 class="section-title">Midnight Navy, Golden Sand &amp; <span class="serif">Clinical Precision</span></h2>
+    <p class="section-lead">A calculated color system blending corporate healthcare authority with private-concierge hospitality aesthetics.</p>
+
+    <div class="showcase-frame">
+      <img src="assets/eversmile/eversmile_palette.svg" alt="EverSmile Dental Chromatic Architecture & Palette — Impixal Media" width="1400" height="500" loading="lazy" />
+      <div class="showcase-caption">
+        <div><strong>Color Compliance:</strong> WCAG 2.1 AAA Contrast Ratio (15.8:1) &middot; Certified across Screen, Offset Lithography &amp; Metal Signage</div>
+        <div><strong>Color Standards:</strong> Pantone 289 C &amp; Pantone 7509 C</div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="callout">
+        <h3>Psychology of the Palette</h3>
+        <p>Traditional dental branding relies heavily on sterile cyan or cold medical teal &mdash; colors patients subconsciously associate with pain and fluorescent waiting rooms.</p>
+        <p>By pairing <strong>Midnight Navy (#07142D)</strong> for deep institutional gravity with <strong>Golden Sand (#D4A574)</strong> for warm hospitality, EverSmile immediately positions itself as a premier cosmetic destination.</p>
+      </div>
+      <div class="callout">
+        <h3>Material &amp; Production Versatility</h3>
+        <p>The system is tested across reverse contrast applications: etched into frosted glass, hot-stamped with gold foil on 600gsm cotton card stock, cut into 3D brushed brass channel letters, and pixel-rendered in dark mode digital interfaces.</p>
+        <p>Zero color degradation across digital and industrial physical fabrication.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: Architectural Exterior & Spatial Signage -->
+<section class="section" id="signage" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="section-eyebrow">03 &middot; Spatial &amp; Environmental Architecture</div>
+    <h2 class="section-title">From 2D Vector to <span class="serif">Architectural Presence</span></h2>
+    <p class="section-lead">The brand comes alive in the physical clinic environment through backlit brushed brass channel lettering, honed navy slate, and frosted glass treatment doors.</p>
+
+    <div class="showcase-frame">
+      <img src="assets/eversmile/eversmile_signage.svg" alt="EverSmile Dental Exterior Signage Mockup — Impixal Media" width="1400" height="850" loading="lazy" />
+      <div class="showcase-caption">
+        <div><strong>Fa&ccedil;ade Specification:</strong> 3D Halo-Lit Brushed Champagne Brass Letters &middot; Honed Navy Granite Slats &middot; 3000K Warm LED Halo</div>
+        <div><strong>Location:</strong> Suite 402, Platinum Galleria, Bodakdev, Ahmedabad</div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="callout">
+        <h3>First Impression Engineering</h3>
+        <p>A patient's clinical impression starts in the corridor before they ever meet the doctor. The warm 3000K halo backlighting against textured navy vertical slats creates a soothing, upscale atmosphere akin to a luxury hotel lounge.</p>
+      </div>
+      <div class="callout">
+        <h3>Wayfinding &amp; Acoustic Privacy</h3>
+        <p>The spatial identity translates effortlessly to frosted treatment room vinyl, brass door pull handles, and suite directory signage &mdash; guiding patients with quiet, dignified authority.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 5: Tactile Collateral & Patient Touchpoints -->
+<section class="section" id="stationery">
+  <div class="container">
+    <div class="section-eyebrow">04 &middot; Tangible Patient Collateral</div>
+    <h2 class="section-title">Every physical touchpoint <span class="serif">reinforces excellence</span></h2>
+    <p class="section-lead">From the doctor's foil-stamped business cards to the official 10-year implant warranty passport handed to patients post-procedure.</p>
+
+    <div class="showcase-frame">
+      <img src="assets/eversmile/eversmile_stationery.svg" alt="EverSmile Dental Stationery & Patient Passport Mockup — Impixal Media" width="1400" height="850" loading="lazy" />
+      <div class="showcase-caption">
+        <div><strong>Paper Stock:</strong> 600gsm Wild Cotton Ultra-White &middot; Midnight Navy Buckram Folder &middot; Hot Foil Stamped Gold Crest</div>
+        <div><strong>Collateral Suite:</strong> Presentation Folder &middot; Dual Business Cards &middot; 10-Yr Warranty Passport &middot; Brass Clinic Pen</div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="callout">
+        <h3>The Patient Warranty Passport</h3>
+        <p>High-value orthodontic and dental implant procedures represent significant emotional and financial investments for patients. We created the official <strong>EverSmile Care Passport</strong> &mdash; a bound passport-style certificate bearing the procedure log, CAD/CAM crown serial number, and a 10-year verified clinic warranty seal.</p>
+      </div>
+      <div class="callout">
+        <h3>Tactile Confidence</h3>
+        <p>Handing patients a weighty, gold-gilded physical passport transforms a routine clinical transaction into an indelible milestone of personal transformation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 6: Measured ROI & Market Impact -->
+<section class="section" id="metrics" style="background:var(--bg-2)">
+  <div class="container">
+    <div class="section-eyebrow">05 &middot; Measured Market Outperformance</div>
+    <h2 class="section-title">Quantified results &amp; <span class="serif">clinical growth</span></h2>
+    <p class="section-lead">How comprehensive brand architecture directly drove high-ticket case conversions and patient referral velocity in Ahmedabad.</p>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-val">+240%</div>
+        <div class="metric-label">Implant Consultations</div>
+        <div class="metric-desc">Quarter-over-quarter surge in private implant &amp; clear aligner bookings.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">4.9&starf;</div>
+        <div class="metric-label">Google Review Rating</div>
+        <div class="metric-desc">Over 140+ verified 5-star patient reviews praising clinic ambience &amp; clarity.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">3.2x</div>
+        <div class="metric-label">Treatment Acceptance</div>
+        <div class="metric-desc">High-ticket treatment plan acceptance rate jumped from 22% to 71%.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">14-Day</div>
+        <div class="metric-label">Turnaround Time</div>
+        <div class="metric-desc">Full brand identity, environmental signage specs, and print collateral delivered on time.</div>
+      </div>
+    </div>
+
+    <!-- Testimonial Quote -->
+    <div class="quote">
+      <p>&ldquo;EverSmile shows up with immense clarity and consistency everywhere &mdash; from our street signage to the treatment passport we place in our patients&rsquo; hands. Impixal Media solved a complex four-part design brief and gave us an identity that instills confidence before the patient even enters the operatory chair.&rdquo;</p>
+      <div class="attr">
+        Dr. Aryan Mehta, MDS <span>&middot; Founder &amp; Chief Orthodontist, EverSmile Dental Clinic</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 7: Next Step & Call to Action -->
+<section class="cta-band">
+  <div class="cta-band-bg"></div>
+  <div class="cta-band-inner container">
+    <div class="section-eyebrow" style="justify-content:center">Next Phase</div>
+    <h2>Ready for a brand that <span class="serif">stands tall?</span></h2>
+    <p>Whether you're opening a flagship healthcare clinic or scaling an enterprise product, Impixal Media crafts institutional identities that drive tangible market authority.</p>
+    <div style="display:flex;gap:18px;justify-content:center;flex-wrap:wrap">
+      <a href="index.html#contact" class="btn btn-primary">Schedule a Brand Audit &rarr;</a>
+      <a href="index.html#work" class="btn btn-ghost">Explore More Case Studies</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <span>&copy; 2026 Impixal Media. All rights reserved. EverSmile Dental Case Study.</span>
+      <span>Managed and maintained by <a href="https://wescaleo.in" target="_blank" rel="noopener">wescaleo.in</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Smooth Lenis Scroll
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true
+  });
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time) => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Navbar scroll background
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+  // Mobile menu toggle
+  const toggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (toggle && navLinks) {
+    toggle.addEventListener('click', () => {
+      const isOpen = navLinks.style.display === 'flex';
+      navLinks.style.display = isOpen ? 'none' : 'flex';
+      if (!isOpen) {
+        navLinks.style.flexDirection = 'column';
+        navLinks.style.position = 'absolute';
+        navLinks.style.top = '80px';
+        navLinks.style.left = '0';
+        navLinks.style.right = '0';
+        navLinks.style.background = '#040916';
+        navLinks.style.padding = '24px';
+        navLinks.style.borderBottom = '1px solid var(--border)';
+      }
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        if (window.innerWidth <= 960) navLinks.style.display = 'none';
+      });
+    });
+  }
+
+  // Scroll Progress Bar
+  gsap.to('#scrollProgress', {
+    width: '100%',
+    ease: 'none',
+    scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.3 }
+  });
+
+  // Custom Cursor with graceful initial hide
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  let cursorStarted = false;
+
+  window.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    if (!cursorStarted) {
+      cursorStarted = true;
+      cursor.style.opacity = '1';
+      ring.style.opacity = '1';
+    }
+  });
+
+  function animCursor() {
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.18;
+    ry += (my - ry) * 0.18;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+
+  // Hover triggers for custom cursor
+  document.querySelectorAll('a, button, .jump-pill, .logomark-item, .metric-card, .showcase-frame').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '6px';
+      cursor.style.height = '6px';
+      ring.style.width = '64px';
+      ring.style.height = '64px';
+      ring.style.borderColor = 'rgba(212,165,116,0.9)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '10px';
+      cursor.style.height = '10px';
+      ring.style.width = '44px';
+      ring.style.height = '44px';
+      ring.style.borderColor = 'rgba(212,165,116,0.6)';
+    });
+  });
+
+  // GSAP Scroll Animations (Gentle reveal with visible fallback)
+  gsap.utils.toArray('.showcase-frame').forEach(frame => {
+    gsap.from(frame, {
+      y: 40, opacity: 0.2, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: frame, start: 'top 92%', toggleActions: 'play none none none' }
+    });
+  });
+
+  gsap.utils.toArray('.callout').forEach(card => {
+    gsap.from(card, {
+      y: 30, opacity: 0.2, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: card, start: 'top 92%', toggleActions: 'play none none none' }
+    });
+  });
+
+  gsap.utils.toArray('.logomark-item').forEach((item, i) => {
+    gsap.from(item, {
+      y: 25, opacity: 0.2, duration: 0.7, delay: i * 0.08, ease: 'power3.out',
+      scrollTrigger: { trigger: item, start: 'top 92%', toggleActions: 'play none none none' }
+    });
+  });
+
+  gsap.utils.toArray('.metric-card').forEach((card, i) => {
+    gsap.from(card, {
+      y: 25, scale: 0.96, opacity: 0.2, duration: 0.7, delay: i * 0.08, ease: 'power3.out',
+      scrollTrigger: { trigger: card, start: 'top 92%', toggleActions: 'play none none none' }
+    });
+  });
+
+  window.addEventListener('resize', () => ScrollTrigger.refresh());
+</script>
+</body>
+</html>

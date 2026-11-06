@@ -1,0 +1,18 @@
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Scratch and intermediate development files
+*.mjs
+*.py
+shot_*.png
+screenshot_*.png
+screenshot_template.png
+index.backup.html
+
+# Caches
+__pycache__/
+*.py[cod]
+.cache/
+node_modules/

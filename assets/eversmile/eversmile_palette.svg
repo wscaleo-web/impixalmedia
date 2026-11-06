@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 500" width="1400" height="500" fill="none">
+  <defs>
+    <filter id="swatchShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="500" fill="#060e1e"/>
+
+  <g transform="translate(80, 50)">
+    <text x="0" y="0" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="13" fill="#d4a574" letter-spacing="0.22em">CHROMATIC ARCHITECTURE &#183; ACCESSIBILITY STANDARDS</text>
+    <text x="0" y="34" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="30" fill="#ffffff" letter-spacing="-0.02em">The EverSmile Color System</text>
+    <text x="0" y="60" font-family="'Inter', sans-serif" font-size="14" fill="#a0aac8">Clinically certified contrast &#183; WCAG 2.1 AAA Compliant ratio (15.8:1).</text>
+  </g>
+
+  <!-- 4 Swatches Grid -->
+  <!-- Swatch 1: Midnight Navy -->
+  <g transform="translate(80, 150)" filter="url(#swatchShadow)">
+    <rect width="280" height="290" rx="20" fill="#0d1b33" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <rect x="16" y="16" width="248" height="140" rx="14" fill="#07142d" stroke="rgba(255,255,255,0.08)"/>
+    <text x="24" y="190" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="18" fill="#ffffff">Midnight Navy</text>
+    <text x="24" y="212" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="12" fill="#d4a574">PRIMARY BRAND AUTHORITY</text>
+    <g font-family="'Space Grotesk', monospace" font-size="11" fill="#a0aac8" transform="translate(24, 235)">
+      <text x="0" y="0">HEX: #07142D</text>
+      <text x="0" y="18">RGB: 7, 20, 45</text>
+      <text x="0" y="36">PANTONE 289 C</text>
+    </g>
+  </g>
+
+  <!-- Swatch 2: Golden Sand -->
+  <g transform="translate(390, 150)" filter="url(#swatchShadow)">
+    <rect width="280" height="290" rx="20" fill="#0d1b33" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <rect x="16" y="16" width="248" height="140" rx="14" fill="#d4a574" stroke="rgba(255,255,255,0.2)"/>
+    <text x="24" y="190" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="18" fill="#ffffff">Golden Sand</text>
+    <text x="24" y="212" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="12" fill="#d4a574">WARM LUXURY &amp; ACCENT</text>
+    <g font-family="'Space Grotesk', monospace" font-size="11" fill="#a0aac8" transform="translate(24, 235)">
+      <text x="0" y="0">HEX: #D4A574</text>
+      <text x="0" y="18">RGB: 212, 165, 116</text>
+      <text x="0" y="36">PANTONE 7509 C</text>
+    </g>
+  </g>
+
+  <!-- Swatch 3: Steel Grey -->
+  <g transform="translate(700, 150)" filter="url(#swatchShadow)">
+    <rect width="280" height="290" rx="20" fill="#0d1b33" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <rect x="16" y="16" width="248" height="140" rx="14" fill="#7a7f8a" stroke="rgba(255,255,255,0.2)"/>
+    <text x="24" y="190" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="18" fill="#ffffff">Steel Grey</text>
+    <text x="24" y="212" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="12" fill="#d4a574">CLINICAL TITANIUM PRECISION</text>
+    <g font-family="'Space Grotesk', monospace" font-size="11" fill="#a0aac8" transform="translate(24, 235)">
+      <text x="0" y="0">HEX: #7A7F8A</text>
+      <text x="0" y="18">RGB: 122, 127, 138</text>
+      <text x="0" y="36">PANTONE COOL GRAY 8 C</text>
+    </g>
+  </g>
+
+  <!-- Swatch 4: Pure White -->
+  <g transform="translate(1010, 150)" filter="url(#swatchShadow)">
+    <rect width="280" height="290" rx="20" fill="#0d1b33" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <rect x="16" y="16" width="248" height="140" rx="14" fill="#ffffff" stroke="rgba(255,255,255,0.4)"/>
+    <text x="24" y="190" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="18" fill="#ffffff">Pure White</text>
+    <text x="24" y="212" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="12" fill="#d4a574">ENAMEL RADIANCE &amp; PURITY</text>
+    <g font-family="'Space Grotesk', monospace" font-size="11" fill="#a0aac8" transform="translate(24, 235)">
+      <text x="0" y="0">HEX: #FFFFFF</text>
+      <text x="0" y="18">RGB: 255, 255, 255</text>
+      <text x="0" y="36">OPAQUE REFLECTIVE</text>
+    </g>
+  </g>
+</svg>

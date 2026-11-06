@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 850" width="1400" height="850" fill="none">
+  <defs>
+    <linearGradient id="schGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff1d6"/>
+      <stop offset="50%" stop-color="#d4a574"/>
+      <stop offset="100%" stop-color="#9e6d38"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0e1f3d" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#071328" stop-opacity="0.95"/>
+    </linearGradient>
+    <pattern id="gridPat" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="rgba(110,168,255,0.08)" stroke-width="0.8"/>
+    </pattern>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="850" fill="#060e1e"/>
+  <rect width="1400" height="850" fill="url(#gridPat)"/>
+
+  <!-- Top Header Band -->
+  <g transform="translate(80, 70)">
+    <text x="0" y="0" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="13" fill="#d4a574" letter-spacing="0.22em">TECHNICAL BLUEPRINT &#183; LOGOMARK ARCHITECTURE</text>
+    <text x="0" y="38" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="34" fill="#ffffff" letter-spacing="-0.02em">The 4-in-1 Geometric Synthesis</text>
+    <text x="0" y="68" font-family="'Inter', sans-serif" font-size="15" fill="#a0aac8">Unifying Tooth, Smile Curve, Orthodontic Braces, and Dental Implant into a singular clinical mark.</text>
+  </g>
+
+  <!-- Left: Large Mathematical Construction Center -->
+  <g transform="translate(380, 480)">
+    <!-- Dimension Axis Lines -->
+    <line x1="-240" y1="0" x2="240" y2="0" stroke="rgba(212,165,116,0.3)" stroke-dasharray="3 3"/>
+    <line x1="0" y1="-260" x2="0" y2="240" stroke="rgba(212,165,116,0.3)" stroke-dasharray="3 3"/>
+    <circle cx="0" cy="-20" r="180" stroke="rgba(110,168,255,0.2)" stroke-width="1" stroke-dasharray="6 6" fill="none"/>
+    <circle cx="0" cy="-20" r="110" stroke="rgba(212,165,116,0.25)" stroke-width="1" fill="none"/>
+
+    <!-- Central Master Vector Icon -->
+    <path d="M-42 -120 C-82 -120 -115 -88 -115 -35 C-115 25 -82 95 -62 165 C-56 186 -44 186 -38 165 C-26 122 -16 82 0 82 C16 82 26 122 38 165 C44 186 56 186 62 165 C82 95 115 25 115 -35 C115 -88 82 -120 42 -120 C20 -120 8 -104 0 -92 C-8 -104 -20 -120 -42 -120 Z" fill="#0b1a38" stroke="url(#schGold)" stroke-width="3"/>
+
+    <!-- Smile Arc -->
+    <path d="M-68 -10 Q0 55 68 -10" stroke="#fff8ec" stroke-width="7" stroke-linecap="round" fill="none"/>
+
+    <!-- Braces Nodes -->
+    <g fill="url(#schGold)">
+      <rect x="-48" y="2" width="10" height="10" rx="2" stroke="#fff" stroke-width="0.8"/>
+      <rect x="-18" y="18" width="10" height="10" rx="2" stroke="#fff" stroke-width="0.8"/>
+      <rect x="8" y="18" width="10" height="10" rx="2" stroke="#fff" stroke-width="0.8"/>
+      <rect x="38" y="2" width="10" height="10" rx="2" stroke="#fff" stroke-width="0.8"/>
+      <path d="M-52 7 Q0 30 52 7" stroke="#fff" stroke-width="1.2" stroke-dasharray="2 2" fill="none"/>
+    </g>
+
+    <!-- Implant Threads -->
+    <g stroke="url(#schGold)" stroke-width="2" stroke-linecap="round">
+      <line x1="-54" y1="115" x2="-38" y2="120"/>
+      <line x1="-50" y1="135" x2="-34" y2="140"/>
+      <line x1="-46" y1="155" x2="-32" y2="159"/>
+      <line x1="38" y1="120" x2="54" y2="115"/>
+      <line x1="34" y1="140" x2="50" y2="135"/>
+      <line x1="32" y1="159" x2="46" y2="155"/>
+    </g>
+
+    <!-- Sparkle Star -->
+    <g transform="translate(85, -95)">
+      <path d="M0 -22 L5 -6 L21 0 L5 6 L0 22 L-5 6 L-21 0 L-5 -6 Z" fill="url(#schGold)"/>
+    </g>
+
+    <!-- Measurement Annotations -->
+    <g font-family="'Space Grotesk', monospace" font-size="11" fill="#7a7f8a">
+      <text x="-165" y="-30">R = 115mm (Outer)</text>
+      <text x="130" y="-30">Arc Φ = 1.618</text>
+      <text x="-120" y="175">Pitch = 2.5mm</text>
+      <text x="70" y="175">Dual Root Apex</text>
+    </g>
+  </g>
+
+  <!-- Right: 4 Detailed Modular Breakdown Cards -->
+  <!-- Card 1: Structured Tooth Form -->
+  <g transform="translate(760, 180)" filter="url(#cardShadow)">
+    <rect width="560" height="135" rx="18" fill="url(#cardGrad)" stroke="rgba(212,165,116,0.3)" stroke-width="1"/>
+    <!-- Icon Pill -->
+    <rect x="22" y="24" width="48" height="48" rx="12" fill="#07142d" stroke="url(#schGold)" stroke-width="1.5"/>
+    <path d="M38 36 C32 36 29 42 29 48 C29 58 35 64 38 68 C40 64 42 58 45 68 C48 64 54 58 54 48 C54 42 51 36 45 36 C42 36 40 38 38 40 C36 38 34 36 38 36 Z" fill="url(#schGold)"/>
+    <!-- Content -->
+    <text x="88" y="44" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#ffffff">01 &#183; Structured Tooth Form</text>
+    <text x="88" y="65" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="12" fill="#d4a574">STRUCTURAL INTEGRITY &amp; CLINICAL FOUNDATION</text>
+    <text x="88" y="92" font-family="'Inter', sans-serif" font-size="13" fill="#a0aac8">A clean, biomorphic silhouette anchored by dual root geometry. Provides immediate category recognition while avoiding clinical sterility.</text>
+  </g>
+
+  <!-- Card 2: Refined Smile Curve -->
+  <g transform="translate(760, 335)" filter="url(#cardShadow)">
+    <rect width="560" height="135" rx="18" fill="url(#cardGrad)" stroke="rgba(212,165,116,0.3)" stroke-width="1"/>
+    <rect x="22" y="24" width="48" height="48" rx="12" fill="#07142d" stroke="url(#schGold)" stroke-width="1.5"/>
+    <path d="M30 46 Q46 64 62 46" stroke="url(#schGold)" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <text x="88" y="44" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#ffffff">02 &#183; Refined Smile Curve</text>
+    <text x="88" y="65" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="12" fill="#d4a574">HUMAN WARMTH &amp; AESTHETIC CONFIDENCE</text>
+    <text x="88" y="92" font-family="'Inter', sans-serif" font-size="13" fill="#a0aac8">A parabolic golden ratio curve sweeping upward through the tooth core. Dissolves dental anxiety and communicates life-changing smiles.</text>
+  </g>
+
+  <!-- Card 3: Braces in Linework -->
+  <g transform="translate(760, 490)" filter="url(#cardShadow)">
+    <rect width="560" height="135" rx="18" fill="url(#cardGrad)" stroke="rgba(212,165,116,0.3)" stroke-width="1"/>
+    <rect x="22" y="24" width="48" height="48" rx="12" fill="#07142d" stroke="url(#schGold)" stroke-width="1.5"/>
+    <rect x="30" y="44" width="7" height="7" rx="1.5" fill="url(#schGold)"/>
+    <rect x="42" y="48" width="7" height="7" rx="1.5" fill="url(#schGold)"/>
+    <rect x="54" y="44" width="7" height="7" rx="1.5" fill="url(#schGold)"/>
+    <path d="M28 47 Q46 54 64 47" stroke="#fff" stroke-width="1" fill="none"/>
+    <text x="88" y="44" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#ffffff">03 &#183; Orthodontic Braces Integration</text>
+    <text x="88" y="65" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="12" fill="#d4a574">PRECISION ALIGNMENT &amp; BRACKET GEOMETRY</text>
+    <text x="88" y="92" font-family="'Inter', sans-serif" font-size="13" fill="#a0aac8">Micro-bracket nodes interconnected along the smile arc. Seamlessly signals orthodontic specialty without introducing visual clutter or noise.</text>
+  </g>
+
+  <!-- Card 4: Implant Silhouette -->
+  <g transform="translate(760, 645)" filter="url(#cardShadow)">
+    <rect width="560" height="135" rx="18" fill="url(#cardGrad)" stroke="rgba(212,165,116,0.3)" stroke-width="1"/>
+    <rect x="22" y="24" width="48" height="48" rx="12" fill="#07142d" stroke="url(#schGold)" stroke-width="1.5"/>
+    <path d="M40 32 L52 32 L50 64 L42 64 Z" fill="none" stroke="url(#schGold)" stroke-width="1.2"/>
+    <line x1="38" y1="40" x2="54" y2="40" stroke="url(#schGold)" stroke-width="1.5"/>
+    <line x1="40" y1="48" x2="52" y2="48" stroke="url(#schGold)" stroke-width="1.5"/>
+    <line x1="42" y1="56" x2="50" y2="56" stroke="url(#schGold)" stroke-width="1.5"/>
+    <text x="88" y="44" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#ffffff">04 &#183; Subtle Implant Silhouette</text>
+    <text x="88" y="65" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="12" fill="#d4a574">PERMANENCE &amp; PROSTHODONTIC ADVANCEMENT</text>
+    <text x="88" y="92" font-family="'Inter', sans-serif" font-size="13" fill="#a0aac8">Titanium thread pitch geometry subtly etched into the lower root shafts. Symbolizes permanent restoration, osseointegration, and modern surgical care.</text>
+  </g>
+</svg>

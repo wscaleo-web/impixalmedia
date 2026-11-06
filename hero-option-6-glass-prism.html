@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Glass Prism Hero — Live Interactive WebGL Demo | Impixal Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --background: #09090b;
+  --foreground: #fafafa;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+  --border: rgba(255, 255, 255, 0.12);
+  --ring: #3c2cff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+.hero-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100svh + 90vh);
+  background: var(--background);
+  color: var(--foreground);
+}
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 560px;
+  width: 100%;
+  overflow: hidden;
+  background: var(--background);
+  color: var(--foreground);
+}
+canvas.gl-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.copy-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+.eyebrow-container {
+  position: absolute;
+  inset-inline: 0;
+  top: 9vh;
+  display: flex;
+  justify-content: center;
+  transition: opacity 1s cubic-bezier(0.2, 0.9, 0.25, 1), transform 1s cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+.eyebrow-pill {
+  display: inline-flex;
+  height: 32px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: rgba(24, 24, 27, 0.7);
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--muted-foreground);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.accent-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3c2cff;
+  box-shadow: 0 0 10px #3c2cff;
+}
+.bottom-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 20px max(14vh, 96px);
+  text-align: center;
+}
+.description {
+  max-width: 600px;
+  font-size: 17px;
+  line-height: 25px;
+  letter-spacing: -0.02em;
+  color: var(--muted-foreground);
+  margin-bottom: 22px;
+  transition: opacity 1s cubic-bezier(0.2, 0.9, 0.25, 1) 0.1s, transform 1s cubic-bezier(0.2, 0.9, 0.25, 1) 0.1s;
+}
+.actions-row {
+  pointer-events: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  transition: opacity 1s cubic-bezier(0.2, 0.9, 0.25, 1) 0.2s, transform 1s cubic-bezier(0.2, 0.9, 0.25, 1) 0.2s;
+}
+.pill-btn {
+  display: inline-flex;
+  height: 44px;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0 22px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  outline: none;
+  transition: transform 0.15s, background 0.2s;
+  cursor: pointer;
+}
+.pill-btn:active { transform: scale(0.97); }
+.pill-primary {
+  background: var(--foreground);
+  color: var(--background);
+}
+.pill-primary:hover { background: #e4e4e7; }
+.pill-secondary {
+  border: 1px solid var(--border);
+  background: rgba(24, 24, 27, 0.6);
+  color: var(--foreground);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.pill-secondary:hover { background: rgba(39, 39, 42, 0.8); }
+
+.scroll-hint {
+  pointer-events: none;
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--muted-foreground);
+  transition: opacity 0.7s;
+}
+.mouse-icon {
+  position: relative;
+  height: 34px;
+  width: 22px;
+  border-radius: 11px;
+  border: 1.5px solid rgba(250, 250, 250, 0.28);
+  transition: transform 0.5s;
+}
+.mouse-wheel {
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  margin-left: -1.5px;
+  height: 7px;
+  width: 3px;
+  border-radius: 2px;
+  background: #3c2cff;
+  box-shadow: 0 0 8px #3c2cff;
+  animation: prism-wheel 1.8s cubic-bezier(0.6, 0, 0.3, 1) infinite;
+}
+@keyframes prism-wheel {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  70% { transform: translateY(10px); opacity: 0; }
+  100% { opacity: 0; }
+}
+.next-section {
+  min-height: 80vh;
+  display: grid;
+  place-items: center;
+  padding: 40px 20px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--muted-foreground);
+  background: #09090b;
+  border-top: 1px solid var(--border);
+}
+.floating-dock {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  gap: 10px;
+}
+.replay-btn {
+  height: 36px;
+  border-radius: 9999px;
+  background: rgba(24, 24, 27, 0.85);
+  border: 1px solid var(--border);
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--foreground);
+  outline: none;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: all 0.2s;
+}
+.replay-btn:hover { background: #27272a; transform: translateY(-2px); }
+.compare-badge {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: rgba(24, 24, 27, 0.85);
+  border: 1px solid rgba(60, 44, 255, 0.4);
+  font-size: 12px;
+  font-weight: 700;
+  color: #a5b4fc;
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+</style>
+</head>
+<body>
+
+<div class="compare-badge">
+  <span style="width:8px;height:8px;border-radius:50%;background:#3c2cff;box-shadow:0 0 10px #3c2cff"></span>
+  WebGL Snell's Law Prism Refraction &middot; Live Prototype
+</div>
+
+<div class="floating-dock">
+  <a href="index.html" class="replay-btn" style="text-decoration:none;display:inline-flex;align-items:center">&larr; Back to Impixal Main Hero</a>
+  <button type="button" id="replayBtn" class="replay-btn">Replay Light Ray</button>
+</div>
+
+<section class="hero-wrapper" id="prismHero">
+  <div class="stage" id="stage">
+    <canvas class="gl-canvas" id="glCanvas"></canvas>
+
+    <h1 class="sr-only">Design in a new light.</h1>
+
+    <div class="copy-overlay" id="copyOverlay">
+      <div class="eyebrow-container" id="eyebrow">
+        <span class="eyebrow-pill">
+          <i class="accent-dot"></i>
+          Product design studio
+        </span>
+      </div>
+      <div class="bottom-content">
+        <p class="description" id="desc">
+          Interfaces with Apple-level detail, from the first sketch to shipped code.
+        </p>
+        <div class="actions-row" id="actions">
+          <a href="#work" class="pill-btn pill-primary">View work</a>
+          <a href="#contact" class="pill-btn pill-secondary">Book a call</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint" id="scrollHint">
+      <div class="mouse-icon" id="mouseIcon">
+        <span class="mouse-wheel"></span>
+      </div>
+      <span id="hintLabel">Scroll to rotate</span>
+    </div>
+  </div>
+</section>
+
+<section class="next-section" id="work">
+  <div>
+    <h3 style="font-size:24px;color:#fff;margin-bottom:12px;font-weight:700">Scroll back up and the spectrum refocuses.</h3>
+    <p>Notice how moving your mouse bends the incident ray and disperses the 16 spectral wavelengths.</p>
+  </div>
+</section>
+
+<script>
+/* ------------------------------------------------------------------ */
+/*  Glass Prism WebGL Engine (Snell's Law Dispersion across Dot Grid)  */
+/* ------------------------------------------------------------------ */
+const NR = 16;
+const FS = `precision highp float;
+#define NR ${NR}
+uniform vec2 uRes;uniform float uDpr,uT,uDark,uFade,uTime;
+uniform vec3 uBg,uFg;
+uniform sampler2D uText;
+uniform vec2 uV0,uV1,uV2;
+uniform float uRound;
+uniform vec2 uDepth;
+uniform vec2 uS,uE,uDir0;
+uniform vec2 uX[NR];uniform vec2 uD[NR];uniform float uOk[NR];uniform vec3 uC[NR];
+uniform vec2 uShift;
+uniform vec2 uC0;
+uniform float uHeadIn,uFanLen;
+
+float sdTri(vec2 p,vec2 p0,vec2 p1,vec2 p2){
+  vec2 e0=p1-p0,e1=p2-p1,e2=p0-p2,v0=p-p0,v1=p-p1,v2=p-p2;
+  vec2 pq0=v0-e0*clamp(dot(v0,e0)/dot(e0,e0),0.,1.);
+  vec2 pq1=v1-e1*clamp(dot(v1,e1)/dot(e1,e1),0.,1.);
+  vec2 pq2=v2-e2*clamp(dot(v2,e2)/dot(e2,e2),0.,1.);
+  float s=sign(e0.x*e2.y-e0.y*e2.x);
+  vec2 d=min(min(vec2(dot(pq0,pq0),s*(v0.x*e0.y-v0.y*e0.x)),vec2(dot(pq1,pq1),s*(v1.x*e1.y-v1.y*e1.x))),vec2(dot(pq2,pq2),s*(v2.x*e2.y-v2.y*e2.x)));
+  return -sqrt(d.x)*sign(d.y);
+}
+float prism(vec2 p){return sdTri(p,uV0,uV1,uV2)-uRound;}
+float seg(vec2 p,vec2 a,vec2 b){vec2 pa=p-a,ba=b-a;float h=clamp(dot(pa,ba)/dot(ba,ba),0.,1.);return length(pa-ba*h);}
+
+float dotMask(vec2 p){vec2 g=vec2(20.,13.);vec2 q=mod(p+vec2(6.,1.)+g*.5,g)-g*.5;return 1.-smoothstep(.45,1.15,length(q));}
+vec3 scene(vec2 p){
+  vec3 c=uBg;
+  c=mix(c,uFg,(uDark>.5?.12:.14)*dotMask(p));
+  float t=texture2D(uText,clamp(p/uRes,0.,1.)).a;
+  return mix(c,uFg,t*.97);
+}
+vec3 beams(vec2 p,out float white){
+  vec3 L=vec3(0.);white=0.;
+  vec2 head=uS+uDir0*uHeadIn;
+  float di=seg(p,uS,head);
+  float wi=exp(-di*di/1.6)+.16*exp(-di*di/120.);
+  white=wi;L+=vec3(wi);
+  for(int i=0;i<NR;i++){
+    if(uOk[i]<.5)continue;
+    vec2 q=p-uX[i];float t=dot(q,uD[i]);
+    if(t<0.)continue;
+    float d=abs(q.x*uD[i].y-q.y*uD[i].x);
+    float w=1.2+t*.022;
+    float f=(exp(-d*d/(w*w))+.22*exp(-d*d/(w*w*16.)))*smoothstep(uFanLen,uFanLen-120.,t)/(1.+t*.0011);
+    L+=uC[i]*f*(2.4/float(NR));
+  }
+  return L*uFade;
+}
+vec3 inner(vec2 p){
+  vec3 L=vec3(0.);
+  if(uFanLen<=0.)return L;
+  for(int i=0;i<NR;i++){if(uOk[i]<.5)continue;float d=seg(p,uE,uX[i]);L+=mix(vec3(1.),uC[i],.75)*exp(-d*d/3.)*(.9/float(NR));}
+  float de=length(p-uE);L+=vec3(1.)*exp(-de*de/90.)*.55;
+  return L*uFade;
+}
+
+void main(){
+  vec2 p=vec2(gl_FragCoord.x,uRes.y*uDpr-gl_FragCoord.y)/uDpr;
+  float aa=.8/uDpr+.35;
+  float dF=prism(p);
+  float dH=dF;for(int k=1;k<=4;k++){dH=min(dH,prism(p-uDepth*float(k)*.25));}
+
+  vec3 col;
+  float wb;vec3 B=beams(p,wb);
+  vec3 outside=scene(p);
+  float dm=dotMask(p);
+  if(uDark>.5){outside+=B*(.2+2.6*dm);}
+  else{float I=max(B.r,max(B.g,B.b));vec3 hue=B/max(I,1e-4);hue=mix(hue,vec3(.32),wb/max(I,1e-4)*.9);outside=mix(outside,hue*.92,clamp(I*(.3+1.7*dm),0.,.85));}
+
+  vec3 side=scene(p-uDepth*.6)*(uDark>.5?.92:.97)+(uDark>.5?.028:-.015);
+  if(uDark>.5)side+=B*.25;
+  col=mix(side,outside,smoothstep(-aa,aa,dH));
+
+  if(dF<2.){
+    float e=1.;
+    vec2 g=vec2(prism(p+vec2(e,0.))-prism(p-vec2(e,0.)),prism(p+vec2(0.,e))-prism(p-vec2(0.,e)));g=g/max(length(g),1e-4);
+    float bevel=16.;float h=clamp(-dF/bevel,0.,1.);float slope=pow(1.-h,1.6);
+    vec3 N=normalize(vec3(g*slope*1.35,1.));
+    vec2 off=-N.xy*30.-(p-uC0)*.22+uShift;
+    vec3 refr=vec3(scene(p+off*1.).r,scene(p+off*1.07).g,scene(p+off*1.15).b);
+    vec3 glass=refr*(uDark>.5?vec3(.9,.92,1.):vec3(.96,.97,1.))+(uDark>.5?.03:.0);
+    float fr=pow(1.-N.z,1.5);
+    vec3 Ld=normalize(vec3(-uDir0,.9));vec3 H=normalize(Ld+vec3(0.,0.,1.));
+    float sp=pow(max(dot(N,H),0.),48.);
+    float band=exp(-pow(dot(p-uC0,vec2(.8,-.6))/(length(uV0-uC0)*.22)-.35,2.));
+    vec3 iri=.5+.5*cos(6.2831*(dot(p-uC0,vec2(.004,.003))+vec3(0.,.33,.67)));
+    glass+=vec3(1.)*(fr*.3+sp*.85+band*(uDark>.5?.05:.03))+iri*fr*(uDark>.5?.14:.08);
+    if(uDark<.5)glass-=vec3(fr*.10);
+    vec3 IN=inner(p);
+    if(uDark>.5)glass+=IN;
+    else{float I=max(IN.r,max(IN.g,IN.b));vec3 hue=IN/max(I,1e-4);hue=mix(vec3(.45),hue,clamp((I-min(IN.r,min(IN.g,IN.b)))/max(I,1e-4)*2.,0.,1.));glass=mix(glass,hue*.85,clamp(I*.7,0.,.7));}
+    col=mix(glass,col,smoothstep(-aa,aa,dF));
+  }
+
+  vec2 b0=uV0+uDepth,b1=uV1+uDepth,b2=uV2+uDepth;
+  vec3 lineC=uDark>.5?vec3(1.):vec3(0.);
+  float ef=abs(dF);float lf=1.-smoothstep(.0,aa*1.6,ef);
+  float eb=min(min(seg(p,b0,b1),seg(p,b1,b2)),seg(p,b2,b0))-uRound;eb=abs(eb);float lb=1.-smoothstep(0.,aa*1.6,eb);
+  float ec=min(min(seg(p,uV0+normalize(uV0-uC0)*uRound,b0+normalize(uV0-uC0)*uRound),seg(p,uV1+normalize(uV1-uC0)*uRound,b1+normalize(uV1-uC0)*uRound)),seg(p,uV2+normalize(uV2-uC0)*uRound,b2+normalize(uV2-uC0)*uRound));float lc=1.-smoothstep(.2,.2+aa*1.6,ec);
+  col=mix(col,lineC,lb*(uDark>.5?.16:.14));
+  col=mix(col,lineC,lc*(uDark>.5?.22:.18));
+  col=mix(col,lineC,lf*(uDark>.5?.55:.45));
+  gl_FragColor=vec4(col,1.);
+}`;
+
+const VS = `attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}`;
+
+function spectrum(l) {
+  const g = (x, m, s) => Math.exp(-(((x - m) / s) ** 2));
+  let r = g(l, 610, 55) + 0.35 * g(l, 415, 28), gg = g(l, 540, 50);
+  const b = g(l, 455, 38), blue = g(l, 455, 22);
+  r += blue * 0.12; gg -= blue * 0.1;
+  const m = Math.max(r, gg, b, 1e-3);
+  return [(r / m) * 0.9 + 0.1 * r, (gg / m) * 0.9 + 0.1 * gg, b / m];
+}
+const LAMBDA = Array.from({ length: NR }, (_, i) => 700 - i * (300 / (NR - 1)));
+const IOR = LAMBDA.map((l) => 1.33 + 0.03 / (l / 1000) ** 2);
+const COLORS = new Float32Array(LAMBDA.flatMap(spectrum));
+
+const sub = (a, b) => [a[0] - b[0], a[1] - b[1]];
+const add = (a, b) => [a[0] + b[0], a[1] + b[1]];
+const mul = (a, s) => [a[0] * s, a[1] * s];
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1];
+const norm = (a) => { const l = Math.hypot(a[0], a[1]) || 1; return [a[0] / l, a[1] / l]; };
+
+function hitEdges(o, d, V, skip) {
+  let best = null;
+  for (let k = 0; k < 3; k++) {
+    if (k === skip) continue;
+    const a = V[k], e = sub(V[(k + 1) % 3], a), den = d[0] * e[1] - d[1] * e[0];
+    if (Math.abs(den) < 1e-9) continue;
+    const w = sub(a, o), t = (w[0] * e[1] - w[1] * e[0]) / den, u = (w[0] * d[1] - w[1] * d[0]) / den;
+    if (t > 1e-4 && u >= 0 && u <= 1 && (!best || t < best.t)) best = { t, k, p: add(o, mul(d, t)) };
+  }
+  return best;
+}
+function outward(V, k, C) {
+  const a = V[k], b = V[(k + 1) % 3];
+  let n = norm([b[1] - a[1], -(b[0] - a[0])]);
+  if (dot(n, sub(a, C)) < 0) n = mul(n, -1);
+  return n;
+}
+function refract(d, n, eta) {
+  const ci = -dot(n, d), k = 1 - eta * eta * (1 - ci * ci);
+  if (k < 0) return null;
+  return norm(add(mul(d, eta), mul(n, eta * ci - Math.sqrt(k))));
+}
+
+const cv = document.getElementById("glCanvas");
+const stage = document.getElementById("stage");
+const heroWrap = document.getElementById("prismHero");
+const desc = document.getElementById("desc");
+const actions = document.getElementById("actions");
+const eyebrow = document.getElementById("eyebrow");
+const hint = document.getElementById("scrollHint");
+const hintLabel = document.getElementById("hintLabel");
+const mouseIcon = document.getElementById("mouseIcon");
+const replayBtn = document.getElementById("replayBtn");
+
+const headlineText = "Design in a new light.";
+const fontFamily = "Geist, Inter, system-ui, sans-serif";
+const fontWeight = 600;
+
+const gl = cv.getContext("webgl", { antialias: false, premultipliedAlpha: false, alpha: false });
+if (!gl) { alert("WebGL not supported"); }
+
+const shader = (type, src) => {
+  const o = gl.createShader(type);
+  gl.shaderSource(o, src); gl.compileShader(o);
+  return o;
+};
+const vs = shader(gl.VERTEX_SHADER, VS), fsh = shader(gl.FRAGMENT_SHADER, FS), pr = gl.createProgram();
+gl.attachShader(pr, vs); gl.attachShader(pr, fsh); gl.linkProgram(pr);
+gl.useProgram(pr);
+
+const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+const al = gl.getAttribLocation(pr, "a"); gl.enableVertexAttribArray(al); gl.vertexAttribPointer(al, 2, gl.FLOAT, false, 0, 0);
+
+const U = {};
+["uRes","uDpr","uT","uDark","uFade","uTime","uBg","uFg","uText","uV0","uV1","uV2","uRound","uDepth","uS","uE","uDir0","uX","uD","uOk","uC","uShift","uC0","uHeadIn","uFanLen"]
+  .forEach((n) => (U[n] = gl.getUniformLocation(pr, n)));
+const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+gl.uniform3fv(U.uC, COLORS); gl.uniform1i(U.uText, 0);
+
+let textBottom = 0, W = 0, H = 0, DPR = 1, bg = [0.035, 0.035, 0.043], fg = [0.98, 0.98, 0.98], dark = 1;
+
+function drawText() {
+  const c = document.createElement("canvas"); c.width = W * DPR; c.height = H * DPR;
+  const g = c.getContext("2d"); g.scale(DPR, DPR);
+  const font = (px) => `${fontWeight} ${px}px ${fontFamily}`;
+  const words = headlineText.split(/\s+/);
+  let size = Math.min(W * 0.085, H * 0.14, 128), lines = [];
+  for (;;) {
+    g.font = font(size);
+    lines = []; let cur = "";
+    for (const w of words) { const t = cur ? cur + " " + w : w; if (g.measureText(t).width > W * 0.88 && cur) { lines.push(cur); cur = w; } else cur = t; }
+    lines.push(cur);
+    if ((lines.length <= 2 && lines.every((l) => g.measureText(l).width <= W * 0.9)) || size < 28) break;
+    size *= 0.92;
+  }
+  g.font = font(size); g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = "#fff";
+  const lh = size, top = H * 0.29 - ((lines.length - 1) * lh) / 2;
+  lines.forEach((l, i) => g.fillText(l, W / 2, top + i * lh));
+  textBottom = top + (lines.length - 1) * lh + size * 0.36;
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, c);
+}
+
+function resize() {
+  const r = stage.getBoundingClientRect();
+  W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height)); DPR = Math.min(2, window.devicePixelRatio || 1);
+  cv.width = W * DPR; cv.height = H * DPR; gl.viewport(0, 0, cv.width, cv.height);
+  drawText();
+}
+
+let src = 0.3, ang = 0, tilt = [0, 0], SCR = 0, t0 = performance.now(), isReady = false;
+const mouse = { x: 0.5, y: 0.5, on: false };
+
+function geometry() {
+  const R = Math.min(W * 0.15, H * 0.22, 200), C = [W * 0.5, Math.min(H * 0.56, Math.max(H * 0.46, textBottom + R * 0.72))], a = ang + 0.4;
+  const V = [0, 1, 2].map((k) => { const t = a + (k * 2 * Math.PI) / 3; return [C[0] + R * Math.sin(t), C[1] - R * Math.cos(t)]; });
+  const rr = Math.max(4, R * 0.045);
+  const Vs = V.map((v) => add(C, mul(sub(v, C), 1 - (2 * rr) / R)));
+  const S = [-60, H * src], d0 = norm(sub([C[0] - R * 0.4, C[1] - R * 0.2], S));
+  const h = hitEdges(S, d0, V, -1);
+  const X = [], D = [], ok = [];
+  for (let i = 0; i < NR; i++) {
+    let good = 0, x = [0, 0], dir = [1, 0];
+    if (h) {
+      let d = refract(d0, outward(V, h.k, C), 1 / IOR[i]), o = h.p, skip = h.k;
+      for (let b = 0; b < 4 && d; b++) {
+        const g = hitEdges(o, d, V, skip); if (!g) break;
+        const N = outward(V, g.k, C), t = refract(d, mul(N, -1), IOR[i]);
+        if (t) { x = g.p; dir = t; good = 1; break; }
+        d = norm(sub(d, mul(N, 2 * dot(d, N)))); o = g.p; skip = g.k;
+      }
+    }
+    X.push(...x); D.push(...dir); ok.push(good);
+  }
+  return { R, C, Vs, rr, S, d0, E: h ? h.p : C, X, D, ok };
+}
+
+function onScroll() {
+  const r = heroWrap.getBoundingClientRect();
+  SCR = Math.min(1, Math.max(0, -r.top / (window.innerHeight * 0.7)));
+  const op = isReady ? Math.max(0, 1 - SCR * 1.6) : 0;
+  desc.style.opacity = op; actions.style.opacity = op; eyebrow.style.opacity = op;
+  const up = SCR > 0.85;
+  hintLabel.textContent = up ? "Scroll up" : "Scroll to rotate";
+  mouseIcon.style.transform = up ? "rotate(180deg)" : "none";
+  hint.style.opacity = isReady ? (up ? 1 : Math.max(0, 1 - SCR * 5)) : 0;
+}
+
+function restart() {
+  t0 = performance.now(); isReady = false;
+  desc.style.opacity = 0; actions.style.opacity = 0; eyebrow.style.opacity = 0; hint.style.opacity = 0;
+  setTimeout(() => {
+    isReady = true;
+    desc.style.opacity = 1; actions.style.opacity = 1; eyebrow.style.opacity = 1; hint.style.opacity = 1;
+  }, 1200);
+}
+replayBtn.addEventListener("click", () => {
+  heroWrap.scrollIntoView({ behavior: 'smooth' });
+  restart();
+});
+
+const ease = (x) => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3);
+
+function frame(now) {
+  requestAnimationFrame(frame);
+  const t = (now - t0) / 1000;
+  const angT = (mouse.on ? (mouse.x - 0.5) * 0.2 : 0) + SCR * 1.35;
+  const srcT = mouse.on ? 0.2 + Math.min(1, Math.max(0, mouse.y / 0.8)) * 0.3 : 0.3 + Math.sin(now / 1000 * 0.45) * 0.04;
+  const tiltT = mouse.on ? [(mouse.x - 0.5) * 16, (mouse.y - 0.5) * 10] : [0, 0];
+  ang += (angT - ang) * 0.06; src += (srcT - src) * 0.05;
+  tilt = [tilt[0] + (tiltT[0] - tilt[0]) * 0.06, tilt[1] + (tiltT[1] - tilt[1]) * 0.06];
+
+  const G = geometry();
+  const L0 = Math.hypot(G.E[0] - G.S[0], G.E[1] - G.S[1]);
+
+  gl.uniform2f(U.uRes, W, H); gl.uniform1f(U.uDpr, DPR); gl.uniform1f(U.uT, t); gl.uniform1f(U.uDark, dark);
+  gl.uniform1f(U.uFade, (1 - SCR) * (0.96 + 0.04 * Math.sin((now / 1000) * 2.1))); gl.uniform1f(U.uTime, now / 1000);
+  gl.uniform3fv(U.uBg, bg); gl.uniform3fv(U.uFg, fg);
+  gl.uniform2fv(U.uV0, G.Vs[0]); gl.uniform2fv(U.uV1, G.Vs[1]); gl.uniform2fv(U.uV2, G.Vs[2]); gl.uniform1f(U.uRound, G.rr);
+  gl.uniform2f(U.uDepth, G.R * 0.12 + tilt[0], -G.R * 0.13 + tilt[1]); gl.uniform2fv(U.uC0, G.C);
+  gl.uniform2fv(U.uS, G.S); gl.uniform2fv(U.uE, G.E); gl.uniform2fv(U.uDir0, G.d0);
+  gl.uniform2fv(U.uX, G.X); gl.uniform2fv(U.uD, G.D); gl.uniform1fv(U.uOk, G.ok);
+  const sa = ang + 0.6; gl.uniform2f(U.uShift, Math.cos(sa) * G.R * 0.04, Math.sin(sa) * G.R * 0.03);
+  gl.uniform1f(U.uHeadIn, L0 * ease(t / 0.9));
+  gl.uniform1f(U.uFanLen, t < 0.9 ? 0 : Math.hypot(W, H) * 1.2 * ease((t - 0.9) / 1.4) + 120);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+}
+
+stage.addEventListener("pointermove", (e) => {
+  const r = stage.getBoundingClientRect();
+  mouse.x = (e.clientX - r.left) / r.width;
+  mouse.y = (e.clientY - r.top) / r.height;
+  mouse.on = true;
+});
+stage.addEventListener("pointerleave", () => { mouse.on = false; });
+window.addEventListener("scroll", onScroll, { passive: true });
+window.addEventListener("resize", resize);
+
+resize();
+restart();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
+
