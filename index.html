@@ -886,7 +886,7 @@ canvas.gl-canvas {
 .modal-iframe-wrap{position:relative;background:#000}
 .modal-iframe-wrap iframe{width:100%;height:100%;border:0}
 
-/* Responsive */
+/* Responsive & Mobile Performance Optimization */
 @media (max-width:1024px){
   .logo-grid{grid-template-columns:repeat(4,1fr)}
   .services-grid{grid-template-columns:repeat(2,1fr)}
@@ -896,23 +896,66 @@ canvas.gl-canvas {
   .case-card{grid-template-columns:1fr;height:auto}
   .case-visual{min-height:260px}
 }
-@media (max-width:680px){
-  .logo-grid{grid-template-columns:repeat(2,1fr)}
-  .services-grid{grid-template-columns:1fr}
-  .statement__metrics{grid-template-columns:1fr 1fr}
-  .gbp-box{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:1fr}
-  .nav__menu{
-    display:none;position:absolute;top:74px;left:0;right:0;
-    background:rgba(10,9,14,0.96);border:1px solid rgba(255,255,255,0.1);
-    border-radius:24px;padding:24px;flex-direction:column;gap:16px;
+
+@media (max-width:768px){
+  /* Hero optimization on mobile */
+  .hero-wrapper{height:calc(100svh + 35vh);min-height:540px}
+  .stage{height:100svh;min-height:520px;touch-action:pan-y}
+  canvas.gl-canvas{touch-action:pan-y}
+  .eyebrow-container{top:clamp(70px, 9vh, 90px)}
+  .eyebrow-pill{height:30px;padding:0 12px;font-size:11px;letter-spacing:0.04em}
+  .bottom-content{padding:0 18px max(7vh, 46px)}
+  .description{font-size:14.5px;line-height:1.5;margin-bottom:18px;max-width:340px}
+  .actions-row{flex-direction:column;width:100%;max-width:290px;gap:10px}
+  .actions-row .pill-btn{width:100%;height:44px;justify-content:center;font-size:13.5px}
+  .scroll-hint{display:none}
+
+  /* Horizontal work section -> Native touch snap carousel on mobile */
+  .work-section{padding:50px 0}
+  .work-track-wrap{height:auto !important;position:static !important}
+  .work-track{
+    display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;gap:16px;
+    padding:16px 5vw 28px;height:auto !important;
+    scrollbar-width:none;
   }
+  .work-track::-webkit-scrollbar{display:none}
+  .case-card{
+    flex:0 0 88vw;scroll-snap-align:center;height:auto;
+    grid-template-columns:1fr;border-radius:24px;
+  }
+  .case-visual{min-height:220px}
+  .case-body{padding:26px 20px}
+  .case-body h3{font-size:24px}
+  .case-progress{margin-top:16px}
+}
+
+@media (max-width:680px){
+  .logo-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .client-logo-card{height:100px;padding:12px 10px}
+  .client-logo-card img{max-height:40px}
+  .client-logo-name{font-size:10.5px}
+  .services-grid{grid-template-columns:1fr;gap:14px}
+  .statement__metrics{grid-template-columns:1fr 1fr;gap:12px}
+  .gbp-box{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr;gap:28px}
+  .header{width:calc(100% - 24px);top:12px}
+  .header__inner{height:58px;padding:0 14px 0 10px}
+  .logo span:last-child{font-size:15px}
+  .logo-mark{width:32px;height:32px}
+  .nav__menu{
+    display:none;position:absolute;top:66px;left:0;right:0;
+    background:rgba(12,11,16,0.98);border:1px solid rgba(255,255,255,0.14);
+    border-radius:20px;padding:20px;flex-direction:column;gap:12px;
+    box-shadow:0 24px 60px rgba(0,0,0,0.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  }
+  .nav__menu a{padding:10px 14px;border-radius:10px;font-size:15px;color:#fff}
   .nav__menu.open{display:flex}
   .menu__toggle{display:grid}
   body{cursor:auto}.cursor,.cursor-ring{display:none}
-  .case-card{flex:0 0 90vw}
-  .modal-body{grid-template-columns:1fr}
-  .modal-summary{border-right:0;border-bottom:1px solid rgba(255,255,255,0.1);max-height:40vh}
+  .modal-body{grid-template-columns:1fr;overflow-y:auto}
+  .modal-summary{border-right:0;border-bottom:1px solid rgba(255,255,255,0.1);max-height:none;padding:20px}
+  .modal-iframe-wrap{min-height:460px;height:60vh}
 }
 </style>
 <script>document.documentElement.classList.add('js');</script>
@@ -2085,28 +2128,30 @@ void main(){
       if (!g) return;
       const font = (sz) => `700 ${sz}px 'Space Grotesk', 'Gabarito', 'Geist', 'Inter', system-ui, sans-serif`;
       const words = headline.split(" ");
-      let size = Math.min(W * 0.082, 70);
+      const isNarrow = W < 540;
+      let size = Math.min(W * (isNarrow ? 0.092 : 0.082), 70);
       let lines = [];
-      while (size > 22) {
+      const maxLines = isNarrow ? 3 : 2;
+      while (size > 20) {
         lines = [];
         let cur = "";
         for (const w of words) {
           const t = cur ? cur + " " + w : w;
-          if (g.measureText(t).width > W * 0.86 && cur) {
+          if (g.measureText(t).width > W * 0.88 && cur) {
             lines.push(cur);
             cur = w;
           } else cur = t;
         }
         lines.push(cur);
-        if ((lines.length <= 2 && lines.every((l) => g.measureText(l).width <= W * 0.88)) || size < 26) break;
+        if ((lines.length <= maxLines && lines.every((l) => g.measureText(l).width <= W * 0.90)) || size < 24) break;
         size *= 0.92;
       }
       g.font = font(size);
       g.textAlign = "center";
       g.textBaseline = "middle";
       g.fillStyle = "#ffffff";
-      const lh = size * 1.12;
-      const top = H * 0.27 - ((lines.length - 1) * lh) / 2;
+      const lh = size * 1.14;
+      const top = H * (isNarrow ? 0.23 : 0.27) - ((lines.length - 1) * lh) / 2;
       lines.forEach((l, i) => g.fillText(l, W / 2, top + i * lh));
       textBottom = top + (lines.length - 1) * lh + size * 0.36;
       gl.bindTexture(gl.TEXTURE_2D, tex);
@@ -2117,8 +2162,9 @@ void main(){
       const r = stage.getBoundingClientRect();
       W = Math.max(1, Math.round(r.width));
       H = Math.max(1, Math.round(r.height));
-      // Cap DPR to 1.25 for crisp visuals without GPU fill-rate throttling
-      DPR = Math.min(1.25, window.devicePixelRatio || 1);
+      const isMobile = window.innerWidth < 768;
+      // Cap DPR to 1.0 on mobile for 120Hz battery-efficient rendering, 1.25 on desktop
+      DPR = isMobile ? 1.0 : Math.min(1.25, window.devicePixelRatio || 1);
       cv.width = W * DPR;
       cv.height = H * DPR;
       gl.viewport(0, 0, cv.width, cv.height);
@@ -2129,8 +2175,9 @@ void main(){
     const mouse = { x: 0.5, y: 0.5, on: false };
 
     function geometry() {
-      const R = Math.min(W * 0.15, H * 0.22, 195);
-      const C = [W * 0.5, Math.min(H * 0.56, Math.max(H * 0.46, textBottom + R * 0.72))];
+      const isMobile = W < 680;
+      const R = Math.min(Math.max(W * 0.22, 68), H * 0.22, 195);
+      const C = [W * 0.5, Math.min(H * (isMobile ? 0.49 : 0.56), Math.max(H * 0.43, textBottom + R * 0.72))];
       const a = ang + 0.4;
       const V = [0, 1, 2].map((k) => {
         const t = a + (k * 2 * Math.PI) / 3;
@@ -2292,32 +2339,50 @@ void main(){
     .fromTo(statement.querySelector('.statement__dot'), { scale: 0 }, { scale: 1, duration: 0.1 }, 0.9);
   }
 
-  // 7. Horizontal Case Studies Scroll
+  // 7. Case Studies Horizontal Scroll / Mobile Touch Snap Carousel
   const track = document.getElementById('workTrack');
   const wrap = document.getElementById('workWrap');
   if (track && wrap) {
-    gsap.to(track, {
-      x: () => -(track.scrollWidth - window.innerWidth + 80),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: wrap,
-        start: 'top top',
-        end: () => '+=' + (track.scrollWidth - window.innerWidth + 200),
-        scrub: 1,
-        pin: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          const idx = Math.round(self.progress * (track.children.length - 1));
-          document.querySelectorAll('.case-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    const mm = gsap.matchMedia();
+
+    // Desktop & Tablet (> 768px): Pinned cinematic track
+    mm.add("(min-width: 769px)", () => {
+      gsap.to(track, {
+        x: () => -(track.scrollWidth - window.innerWidth + 80),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: wrap,
+          start: 'top top',
+          end: () => '+=' + (track.scrollWidth - window.innerWidth + 200),
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const idx = Math.round(self.progress * (track.children.length - 1));
+            document.querySelectorAll('.case-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+          }
         }
-      }
+      });
     });
+
+    // Mobile (<= 768px): Native touch-momentum horizontal scroll with active dot indicator
+    mm.add("(max-width: 768px)", () => {
+      track.addEventListener('scroll', () => {
+        const cardWidth = track.firstElementChild ? track.firstElementChild.offsetWidth + 16 : 300;
+        const idx = Math.min(track.children.length - 1, Math.max(0, Math.round(track.scrollLeft / cardWidth)));
+        document.querySelectorAll('.case-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+      }, { passive: true });
+    });
+
     const prog = document.getElementById('caseProgress');
-    for (let i = 0; i < track.children.length; i++) {
-      const d = document.createElement('div');
-      d.className = 'case-dot' + (i === 0 ? ' active' : '');
-      prog.appendChild(d);
+    if (prog) {
+      prog.innerHTML = '';
+      for (let i = 0; i < track.children.length; i++) {
+        const d = document.createElement('div');
+        d.className = 'case-dot' + (i === 0 ? ' active' : '');
+        prog.appendChild(d);
+      }
     }
   }
 
