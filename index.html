@@ -178,20 +178,21 @@ ul{list-style:none}
 
 .container{max-width:var(--max);margin:0 auto;padding:0 var(--space-1)}
 
-/* Custom Cursor with Difference Blending */
+/* Custom Cursor with High-Performance Hardware Compositing */
 .cursor{
   position:fixed;top:0;left:0;width:10px;height:10px;border-radius:50%;
-  background:#fff;pointer-events:none;z-index:9999;
-  mix-blend-mode:difference;transform:translate(-50%,-50%);
+  background:#6c3cff;pointer-events:none;z-index:9999;
+  box-shadow:0 0 12px rgba(108,60,255,0.9);
+  will-change:transform;
   opacity:0;
-  transition:width .25s ease,height .25s ease,opacity .25s ease;
+  transition:width .2s ease,height .2s ease,opacity .2s ease;
 }
 .cursor-ring{
   position:fixed;top:0;left:0;width:44px;height:44px;border-radius:50%;
-  border:1.5px solid rgba(255,255,255,.5);pointer-events:none;z-index:9998;
-  transform:translate(-50%,-50%);mix-blend-mode:difference;
+  border:1.5px solid rgba(108,60,255,0.65);pointer-events:none;z-index:9998;
+  will-change:transform;
   opacity:0;
-  transition:width .3s cubic-bezier(0.2,0.8,0.2,1),height .3s cubic-bezier(0.2,0.8,0.2,1),border-color .3s,opacity .25s ease;
+  transition:width .25s cubic-bezier(0.2,0.8,0.2,1),height .25s cubic-bezier(0.2,0.8,0.2,1),border-color .25s,opacity .2s ease;
 }
 .scroll-progress{
   position:fixed;top:0;left:0;height:3px;width:0%;
@@ -947,6 +948,8 @@ canvas.gl-canvas {
       <a href="#statement">Studio</a>
       <a href="#capabilities">Capabilities</a>
       <a href="#work">Work</a>
+      <a href="blog.html">Blog</a>
+      <a href="founder-arjav-shah.html">Founder</a>
       <a href="#reviews">Reviews</a>
       <a href="#google">Credentials</a>
       <a href="#contact" class="header__cta">
@@ -1306,6 +1309,19 @@ canvas.gl-canvas {
         </div>
       </div>
 
+      <!-- Card 0: SEO / AEO / GEO Growth Engine -->
+      <div class="case-card">
+        <div class="case-visual" style="background:linear-gradient(135deg,#0d0c11 0%,#1f1d2b 40%,#6c3cff 100%)">
+          <span>SEO<br/>AEO<br/>GEO</span>
+        </div>
+        <div class="case-body">
+          <span class="case-tag">Search · AI Engines · Growth</span>
+          <h3>SEO / AEO / GEO Growth Engine</h3>
+          <p>How Impixal Media rebuilt its own site to 100/100 SEO and Agentic Readability, with structured data, AEO-ready answers and GEO entity signals.</p>
+          <p><a href="case-study-seo-aeo-geo.html" style="color:var(--c-blue);font-weight:700">Open case study &rarr;</a></p>
+        </div>
+      </div>
+
       <!-- Card 2: Motor 360 -->
       <div class="case-card">
         <div class="case-visual case-2">
@@ -1345,6 +1361,45 @@ canvas.gl-canvas {
 
     </div>
     <div class="case-progress" id="caseProgress"></div>
+  </div>
+</section>
+
+<!-- FOUNDER SECTION -->
+<section class="capabilities" id="founder" aria-labelledby="founder-heading" style="background:#09080e">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Founder &amp; Creative Director</div>
+      <h2 class="sec-title" id="founder-heading">Arjav Shah <span class="serif">— from concept to clicks</span></h2>
+      <p class="sec-lead">Founder of Impixal Media. Leads brand identity, creative direction and digital growth across 80+ client partnerships. <a href="founder-arjav-shah.html" style="color:var(--c-blue);font-weight:700">Read full OSINT profile &rarr;</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG & INSIGHTS SECTION -->
+<section class="capabilities" id="blog" aria-labelledby="blog-heading">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Blog &amp; Insights</div>
+      <h2 class="sec-title" id="blog-heading">SEO, AEO &amp; GEO <span class="serif">playbooks</span></h2>
+      <p class="sec-lead">Field notes on branding, performance marketing and the new search stack. <a href="blog.html" style="color:var(--c-blue);font-weight:700">Visit the blog &rarr;</a></p>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card" style="--s-color:var(--c-blue)">
+        <h3>SEO, AEO &amp; GEO Playbook</h3>
+        <p>How to rank in Google, appear in answer engines and be cited by generative AI.</p>
+        <p><a href="blog-post-seo-aeo-geo.html" style="color:var(--c-blue);font-weight:700">Read article &rarr;</a></p>
+      </div>
+      <div class="svc-card" style="--s-color:var(--c-purple)">
+        <h3>SEO / AEO / GEO Case Study</h3>
+        <p>Rebuild of impixalmedia.com: 82→100 SEO, 18→100 Agentic Readability.</p>
+        <p><a href="case-study-seo-aeo-geo.html" style="color:var(--c-blue);font-weight:700">View case study &rarr;</a></p>
+      </div>
+      <div class="svc-card" style="--s-color:var(--c-pink)">
+        <h3>Founder-Led Brand Building</h3>
+        <p>How Arjav Shah scales craft and client trust across 80+ brands.</p>
+        <p><a href="founder-arjav-shah.html" style="color:var(--c-blue);font-weight:700">Meet the founder &rarr;</a></p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1688,6 +1743,8 @@ canvas.gl-canvas {
         <a href="#statement">About Studio</a>
         <a href="#capabilities">Capabilities</a>
         <a href="#work">Case Studies</a>
+        <a href="blog.html">Blog &amp; Insights</a>
+        <a href="founder-arjav-shah.html">Founder: Arjav Shah</a>
         <a href="#clients">Client Roster</a>
         <a href="#reviews">Testimonials</a>
       </div>
@@ -1724,26 +1781,24 @@ canvas.gl-canvas {
 
 <!-- MOTION SCRIPTS (GSAP + SCROLLTRIGGER + LENIS + GLASS PRISM WEBGL SHOWCASE) -->
 <script>
-  // 1. Lenis Smooth Scroll Setup
+  // 1. Lenis Smooth Scroll Setup (Synced with GSAP Ticker for 60fps lock)
   const lenis = new Lenis({
-    duration: 1.2,
+    duration: 1.0,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true
+    smoothWheel: true,
+    wheelMultiplier: 1.1
   });
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-  requestAnimationFrame(raf);
   lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => lenis.raf(time * 1000));
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
   gsap.ticker.lagSmoothing(0);
   gsap.registerPlugin(ScrollTrigger);
 
   // 2. Header Island Scroll
   const header = document.getElementById('header');
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 30);
+  lenis.on('scroll', (e) => {
+    if (header) header.classList.toggle('scrolled', e.scroll > 30);
   });
 
   // Mobile menu
@@ -1766,43 +1821,44 @@ canvas.gl-canvas {
     }
   });
 
-  // 4. Custom Cursor
+  // 4. Custom Cursor (Hardware Composited via translate3d)
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
-  let mx = -100, my = -100, rx = -100, ry = -100;
-  let cursorActive = false;
-  window.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    if (!cursorActive) {
-      cursorActive = true;
-      rx = mx; ry = my;
-      cursor.style.opacity = '1';
-      ring.style.opacity = '1';
+  const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+  if (hasFinePointer && cursor && ring) {
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    let cursorActive = false;
+    window.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      if (!cursorActive) {
+        cursorActive = true;
+        rx = mx; ry = my;
+        cursor.style.opacity = '1';
+        ring.style.opacity = '1';
+      }
+    }, { passive: true });
+    function animCursor() {
+      cursor.style.transform = `translate3d(${mx - 5}px, ${my - 5}px, 0)`;
+      rx += (mx - rx) * 0.22;
+      ry += (my - ry) * 0.22;
+      ring.style.transform = `translate3d(${rx - 22}px, ${ry - 22}px, 0)`;
+      requestAnimationFrame(animCursor);
     }
-  });
-  function animCursor() {
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
-    rx += (mx - rx) * 0.18;
-    ry += (my - ry) * 0.18;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
     requestAnimationFrame(animCursor);
-  }
-  animCursor();
 
-  document.querySelectorAll('a, button, .svc-card, .client-logo-card, .review-card, .metric-box, .chip').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.width = '6px'; cursor.style.height = '6px';
-      ring.style.width = '68px'; ring.style.height = '68px';
-      ring.style.borderColor = 'rgba(108,60,255,0.7)';
+    document.querySelectorAll('a, button, .svc-card, .client-logo-card, .review-card, .metric-box, .chip').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '6px'; cursor.style.height = '6px';
+        ring.style.width = '60px'; ring.style.height = '60px';
+        ring.style.borderColor = 'rgba(108,60,255,0.9)';
+      }, { passive: true });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '10px'; cursor.style.height = '10px';
+        ring.style.width = '44px'; ring.style.height = '44px';
+        ring.style.borderColor = 'rgba(108,60,255,0.65)';
+      }, { passive: true });
     });
-    el.addEventListener('mouseleave', () => {
-      cursor.style.width = '10px'; cursor.style.height = '10px';
-      ring.style.width = '44px'; ring.style.height = '44px';
-      ring.style.borderColor = 'rgba(255,255,255,0.5)';
-    });
-  });
+  }
 
   // 5. GLASS PRISM WEBGL REFRACTION ENGINE (Snell's Law Spectral Dispersion)
   (function initGlassPrismHero() {
@@ -2061,7 +2117,8 @@ void main(){
       const r = stage.getBoundingClientRect();
       W = Math.max(1, Math.round(r.width));
       H = Math.max(1, Math.round(r.height));
-      DPR = Math.min(2, window.devicePixelRatio || 1);
+      // Cap DPR to 1.25 for crisp visuals without GPU fill-rate throttling
+      DPR = Math.min(1.25, window.devicePixelRatio || 1);
       cv.width = W * DPR;
       cv.height = H * DPR;
       gl.viewport(0, 0, cv.width, cv.height);
@@ -2129,7 +2186,6 @@ void main(){
     const ease = (x) => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3);
 
     function frame(now) {
-      requestAnimationFrame(frame);
       const t = (now - t0) / 1000;
       const angT = (mouse.on ? (mouse.x - 0.5) * 0.2 : 0) + SCR * 1.35;
       const srcT = mouse.on ? 0.2 + Math.min(1, Math.max(0, mouse.y / 0.8)) * 0.3 : 0.3 + Math.sin(now / 1000 * 0.45) * 0.04;
@@ -2169,17 +2225,14 @@ void main(){
     }
 
     window.addEventListener("resize", resize);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    if (window.lenis) {
-      window.lenis.on('scroll', onScroll);
-    }
+    lenis.on('scroll', onScroll);
 
     stage.addEventListener("pointermove", (e) => {
       const r = stage.getBoundingClientRect();
       mouse.x = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
       mouse.y = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height));
       mouse.on = true;
-    });
+    }, { passive: true });
     stage.addEventListener("pointerleave", () => {
       mouse.on = false;
     });
@@ -2304,7 +2357,11 @@ void main(){
   }
   window.handleFormSubmit = handleFormSubmit;
 
-  window.addEventListener('resize', () => ScrollTrigger.refresh());
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
+  });
 </script>
 </body>
 </html>
