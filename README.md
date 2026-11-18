@@ -83,31 +83,6 @@ Audited via Google Lighthouse v13.5.0 comparing the live legacy domain against t
 | **First Contentful Paint (FCP)** | 1.0 s | **0.7 s** | **30% Faster** |
 | **Largest Contentful Paint (LCP)** | 1.0 s | **0.7 s** | **30% Faster** |
 
----
-
-## 🛠️ Tech Stack & Dependencies
-
-- **Markup & Layout**: Semantic HTML5, CSS Grid & Flexbox, CSS Custom Properties (Design Tokens)
-- **Shader & Graphics**: WebGL 1.0 (GLSL Fragment & Vertex Shaders), Snell's Law Refraction Math
-- **Motion & Interactions**: GSAP 3.13, ScrollTrigger, Lenis 1.3 Smooth Scroll
-- **Component Port**: React 18, Tailwind CSS, TypeScript (`components/ui/glass-prism-hero.tsx`)
-- **Typography**: Space Grotesk, Gabarito, Onest, Geist, Inter
-
----
-
-## 🚀 Getting Started
-
-No build step required for the static website. Simply serve with any HTTP server:
-
-```bash
-# Python built-in server
-python -m http.server 8080
-
-# Or Node npx serve
-npx serve .
-```
-
-Open `http://localhost:8080/index.html` in any modern web browser.
 
 ---
 
